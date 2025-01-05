@@ -125,6 +125,72 @@
         .greenGlow {
             animation: greenGlow 2s infinite ease-in-out;
         }
+
+        /* Icon styles */
+        .footer-icon {
+            position: fixed;
+            bottom: 20px;
+            cursor: pointer;
+            font-size: 2rem;
+            transition: bottom 0.5s ease-in-out;
+        }
+
+        /* Default position for desktop */
+        .footer-icon {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Position and size for mobile */
+        @media (max-width: 768px) {
+            .footer-icon {
+                left: 20px;
+                transform: none;
+                font-size: 1.5rem; /* Smaller size for mobile */
+            }
+
+            .list-container {
+                left: 20px;
+                bottom: 60px; /* Position slightly above the icon */
+                transform: none; /* Aligns the list with the icon */
+            }
+        }
+
+        .list-container {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            display: none;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            opacity: 0;
+        }
+
+        .list-container.show {
+            display: block;
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .list-item {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .list-item a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .list-item a:hover {
+            color: #ff8008;
+        }
     </style>
 </head>
 <body>
@@ -183,6 +249,16 @@
     </table>
     <button id="calculateButton" onclick="calculate()">Calculate</button>
 
+    <!-- Icon element in footer -->
+    <footer id="footer">
+        <div class="footer-icon" onclick="toggleList()">📎</div>
+    </footer>
+
+    <!-- List Container -->
+    <div class="list-container" id="listContainer">
+        <div class="list-item"><a href="#">🎧 Music</a></div>
+    </div>
+
     <script>
         let ws;
         let livePrice;
@@ -217,6 +293,8 @@
 
             document.getElementById("riskPerUnit").innerText = riskPerUnit.toFixed(2);
             document.getElementById("quantity").innerText = quantity.toFixed(6);
+
+            showFooter();
         }
 
         function updateBackgroundShadow() {
@@ -234,5 +312,17 @@
             }
         }
 
+        function showFooter() {
+            const footer = document.getElementById("footer");
+            footer.classList.add("show");
+        }
+
+        function toggleList() {
+            const listContainer = document.getElementById('listContainer');
+            listContainer.classList.toggle('show');
+        }
+
         connectWebSocket(document.getElementById("cryptoSelect").value);
-</script> </body> </html>
+    </script>
+</body>
+</html>
